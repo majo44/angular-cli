@@ -154,7 +154,7 @@ export class AotPlugin implements Tapable {
 
     // Default exclude to **/*.spec.ts files.
     if (!options.hasOwnProperty('exclude')) {
-      options['exclude'] = ['**/*.spec.ts'];
+      options['exclude'] = ['**/*.spec.ts', '**/*.spec.tsx'];
     }
 
     // Add custom excludes to default TypeScript excludes.
@@ -445,7 +445,9 @@ export class AotPlugin implements Tapable {
       // when the issuer is a `.ts` file.
       compiler.resolvers.normal.plugin('before-resolve', (request: any, cb: () => void) => {
         if (this.done && (request.request.endsWith('.ts')
-          || (request.context.issuer && request.context.issuer.endsWith('.ts')))) {
+          || request.request.endsWith('.tsx')
+          || (request.context.issuer && request.context.issuer.endsWith('.ts'))
+          || (request.context.issuer && request.context.issuer.endsWith('.tsx')))) {
           this.done.then(() => cb(), () => cb());
         } else {
           cb();
@@ -638,7 +640,7 @@ export class AotPlugin implements Tapable {
             if (this.skipCodeGeneration) {
               this._lazyRoutes[k] = lazyRoute;
             } else {
-              const factoryPath = lazyRoute.replace(/(\.d)?\.ts$/, '.ngfactory.ts');
+              const factoryPath = lazyRoute.replace(/(\.d)?\.(ts|tsx)$/, '.ngfactory.ts');
               const lr = path.relative(this.basePath, factoryPath);
               this._lazyRoutes[k + '.ngfactory'] = path.join(this.genDir, lr);
             }

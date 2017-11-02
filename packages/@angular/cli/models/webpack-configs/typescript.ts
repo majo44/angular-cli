@@ -147,7 +147,7 @@ export function getAotConfig(wco: WebpackConfigOptions) {
 
   const test = AngularCompilerPlugin.isSupported()
     ? /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts|\.tsx)$/
-    : /\.ts|\.tsx$/;
+    : /\.(ts|tsx)$/;
 
   return {
     module: { rules: [{ test, use: [...boLoader, webpackLoader] }] },
@@ -188,7 +188,7 @@ export function getNonAotTestConfig(wco: WebpackConfigOptions) {
   }
 
   return {
-    module: { rules: [{ test: /\.ts|\.tsx$/, loader: webpackLoader }] },
+    module: { rules: [{ test: /\.(ts|tsx)$/, loader: webpackLoader }] },
     plugins: [ _createAotPlugin(wco, pluginOptions, false) ]
   };
 }

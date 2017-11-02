@@ -25,7 +25,7 @@ const HelpCommand = Command.extend({
   run: function (commandOptions: any, rawArgs: any) {
     let commandFiles = fs.readdirSync(__dirname)
       // Remove files that are not JavaScript or Typescript
-      .filter(file => file.match(/\.(j|t)s$/) && !file.match(/\.d.ts$/))
+      .filter(file => file.match(/\.(js|ts|tsx)$/) && !file.match(/\.d.ts$/))
       .map(file => path.parse(file).name)
       .map(file => file.toLowerCase());
 

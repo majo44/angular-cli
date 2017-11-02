@@ -286,7 +286,7 @@ export class AngularCompilerPlugin implements Tapable {
 
   private _getChangedTsFiles() {
     return this._compilerHost.getChangedFilePaths()
-      .filter(k => k.endsWith('.ts') && !k.endsWith('.d.ts'))
+      .filter(k => (k.endsWith('.ts') || k.endsWith('.tsx')) && !k.endsWith('.d.ts'))
       .filter(k => this._compilerHost.fileExists(k));
   }
 
@@ -437,7 +437,7 @@ export class AngularCompilerPlugin implements Tapable {
           modulePath = lazyRouteTSFile;
           moduleKey = lazyRouteKey;
         } else {
-          modulePath = lazyRouteTSFile.replace(/(\.d)?\.ts$/, `.ngfactory.js`);
+          modulePath = lazyRouteTSFile.replace(/(\.d)?\.(ts|tsx)$/, `.ngfactory.js`);
           moduleKey = `${lazyRouteModule}.ngfactory#${moduleName}NgFactory`;
         }
 
@@ -593,7 +593,7 @@ export class AngularCompilerPlugin implements Tapable {
       // when the issuer is a `.ts` or `.ngfactory.js` file.
       compiler.resolvers.normal.plugin('before-resolve', (request: any, cb: () => void) => {
         if (request.request.endsWith('.ts')
-          || (request.context.issuer && /\.ts|ngfactory\.js$/.test(request.context.issuer))) {
+          || (request.context.issuer && /\.ts|\.tsx|ngfactory\.js$/.test(request.context.issuer))) {
           this.done!.then(() => cb(), () => cb());
         } else {
           cb();
@@ -773,7 +773,7 @@ export class AngularCompilerPlugin implements Tapable {
   }
 
   getCompiledFile(fileName: string) {
-    const outputFile = fileName.replace(/.ts$/, '.js');
+    const outputFile = fileName.replace(/.(ts|tsx)$/, '.js');
     let outputText: string;
     let sourceMap: string;
     let errorDependencies: string[] = [];

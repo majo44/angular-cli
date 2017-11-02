@@ -593,7 +593,8 @@ export default Task.extend({
           // Make sure we now include tests.  Do not touch otherwise.
           tsConfigJson.exclude = [
             'test.ts',
-            '**/*.spec.ts'
+            '**/*.spec.ts',
+            '**/*.spec.tsx'
           ];
         }
         return writeFile(tsConfigPath, JSON.stringify(tsConfigJson, null, 2) + '\n');

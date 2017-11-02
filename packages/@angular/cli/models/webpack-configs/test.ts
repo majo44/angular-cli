@@ -26,7 +26,7 @@ export function getTestConfig(wco: WebpackConfigOptions<WebpackTestOptions>) {
   if (buildOptions.codeCoverage && CliConfig.fromProject()) {
     const codeCoverageExclude = CliConfig.fromProject().get('test.codeCoverage.exclude');
     let exclude: (string | RegExp)[] = [
-      /\.(e2e|spec)\.ts$/,
+      /\.(e2e|spec)\.(ts|tsx)$/,
       /node_modules/
     ];
 

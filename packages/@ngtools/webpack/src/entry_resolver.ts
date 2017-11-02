@@ -153,7 +153,7 @@ export function resolveEntryModuleFromMain(mainPath: string,
   const bootstrapSymbolName = bootstrap[0].text;
   const module = _symbolImportLookup(source, bootstrapSymbolName, host, program);
   if (module) {
-    return `${module.replace(/\.ts$/, '')}#${bootstrapSymbolName}`;
+    return `${module.replace(/\.(ts|tsx)$/, '')}#${bootstrapSymbolName}`;
   }
 
   // shrug... something bad happened and we couldn't find the import statement.
